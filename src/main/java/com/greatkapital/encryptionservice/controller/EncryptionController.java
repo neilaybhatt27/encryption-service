@@ -3,6 +3,11 @@ package com.greatkapital.encryptionservice.controller;
 import com.greatkapital.encryptionservice.model.EncryptedMessageResponsePOJO;
 import com.greatkapital.encryptionservice.model.MessageRequestPOJO;
 import com.greatkapital.encryptionservice.service.EncryptionService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +38,27 @@ public class EncryptionController {
      * @param messageRequestPOJO MessageRequestPOJO object containing the input string.
      * @return Response Entity containing the encrypted string or error.
      */
+
+    @Operation(summary = "Encrypt the input message text.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Encryption successful",
+                    content = {@Content(mediaType = "application/json",
+                            examples = {@ExampleObject(value = """
+                            {
+                                "encryptedMessage": "90+9gorTSMatT3CfzKCxRg=="
+                            }
+                            """)})}),
+            @ApiResponse(responseCode = "422",
+                    description = "Invalid input",
+                    content = {@Content(mediaType = "application/json",
+                            examples = {@ExampleObject(value = """
+                            {
+                                "errorObject": "Invalid input: message cannot be null"
+                            }
+                            """)})})
+    })
+
     @PostMapping(path = "/encrypt")
     public ResponseEntity<Object> getEncryptedMessage(@RequestBody MessageRequestPOJO messageRequestPOJO) {
         LOGGER.info("IN EncryptionController.getEncryptedMessage with MessageRequestPOJO: {}", messageRequestPOJO);
