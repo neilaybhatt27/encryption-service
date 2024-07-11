@@ -17,6 +17,9 @@ target/
 mvnw
 mvnw.cmd
 
+### logs
+logs/
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
